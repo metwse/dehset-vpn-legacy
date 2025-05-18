@@ -1,0 +1,24 @@
+[workspace]
+members = [
+    "server",
+    "node",
+    "proto-core"
+]
+default-members = [
+    "server",
+    "node",
+    "proto-core"
+]
+resolver = "2"
+
+
+[workspace.dependencies]
+tokio = "1"
+tracing = "0.1"
+
+
+[workspace.lints.clippy]
+all = "warn"
+style = "warn"
+unused_self = "warn"
+if_let_mutex = "warn"
