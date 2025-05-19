@@ -1,0 +1,16 @@
+[package]
+name = "client"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+proto-core = { path = "../proto-core/" }
+crypto = { path = "../crypto/" }
+tokio = { workspace = true, features = ["net"] }
+paste = { workspace = true }
+
+[dev-dependencies]
+server = { path = "../server/" }
+
+[lints]
+workspace = true

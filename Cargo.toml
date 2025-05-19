@@ -1,13 +1,13 @@
 [workspace]
 members = [
     "server",
-    "node",
+    "client",
     "proto-core",
     "crypto",
 ]
 default-members = [
     "server",
-    "node",
+    "client",
     "proto-core",
     "crypto",
 ]

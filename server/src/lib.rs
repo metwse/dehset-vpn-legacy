@@ -19,13 +19,13 @@ use std::net::SocketAddr;
 
 /// Configuration structure for building and launching a VPN server instance.
 ///
-/// [`ServerBuilder`] holds necessary cryptographic keys and network binding
-/// information used to initialize the protocol server.
+/// Cryptographic keys and network binding information used to initialize the
+/// protocol server.
 pub struct ServerBuilder {
     /// Address to bind the server to (e.g., 0.0.0.0:781).
     pub addr: SocketAddr,
 
-    /// Symmetric encryption key used for securing data.
+    /// Symmetric encryption key used for encryption.
     pub encryption_key: Vec<u8>,
     /// Signing key used for token authentication and message integrity.
     pub signing_key: Vec<u8>,

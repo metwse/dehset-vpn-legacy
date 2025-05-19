@@ -4,13 +4,14 @@ use hex;
 
 #[test]
 fn signature() -> DynResult<()> {
-    let signer =
-        Hs256::try_new(&hex::decode("01598d62e7028e14aa6a4bc148a9f4b4").unwrap())?;
+    let signer = Hs256::try_new(&hex::decode("01598d62e7028e14aa6a4bc148a9f4b4").unwrap())?;
 
-    let signature =
-        signer.sign(&hex::decode("0ceea336b1b2eb9bbd895688a3fc0208").unwrap())?;
+    let signature = signer.sign(&hex::decode("0ceea336b1b2eb9bbd895688a3fc0208").unwrap())?;
 
-    assert_eq!(signature, hex::decode("db945088ccfb16fae0c4d329f56a7e60387fbb74156b0b6771688c344a843ee5").unwrap());
+    assert_eq!(
+        signature,
+        hex::decode("db945088ccfb16fae0c4d329f56a7e60387fbb74156b0b6771688c344a843ee5").unwrap()
+    );
 
     Ok(())
 }
