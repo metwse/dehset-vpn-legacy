@@ -6,11 +6,14 @@
 //! Modules:
 //! - [`token`]: Authentication token structures and scopes.
 //! - [`sub_protocol`]: Definitions for handshake, command, and data payloads.
+//! - [`algorithms`]: Supported encryption and signature algorithms.
 //!
 //! See the documentation of each module for details.
 
+pub mod algorithms;
 pub mod sub_protocol;
 pub mod token;
 
+pub use algorithms::*;
 pub use sub_protocol::*;
 pub use token::*;

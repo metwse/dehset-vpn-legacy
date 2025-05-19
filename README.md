@@ -8,3 +8,9 @@ protocol is currently in progress.
 
 The scope of Dehset VPN is limited to port tunneling. It does not create a full
 network or virtual network interface.
+
+
+## Building
+To build this project, make sure OpenSSL is properly installed. Refer to the
+[OpenSSL crate documentation](https://docs.rs/openssl/latest/openssl/index.html#building)
+for platform-specific installation steps.

@@ -4,7 +4,7 @@
 //! initial connection requests, raw application data, and connection
 //! termination messages.
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 /// Type of application-layer content encapsulated in the VPN tunnel.
 pub enum ApplicationDataContentType {

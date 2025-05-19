@@ -3,8 +3,8 @@
 //! Messages used for control-plane operations such as signing and revoking
 //! authentication tokens.
 
-use serde::{Serialize, Deserialize};
 use crate::token::{SignedToken, Token};
+use serde::{Deserialize, Serialize};
 
 /// Command message types sent to the server for administrative actions.
 pub enum CmdContentType {

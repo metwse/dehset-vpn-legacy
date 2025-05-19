@@ -12,7 +12,7 @@
 //! This design supports scalable and secure delegation of responsibilities
 //! between nodes with varying trust levels.
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::ops::RangeInclusive;
 
 /// Node ID Token.

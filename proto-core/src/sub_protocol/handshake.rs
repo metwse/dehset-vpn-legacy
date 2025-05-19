@@ -5,7 +5,7 @@
 //! share knowledge of the symmetric encryption key (e.g., AES).
 
 use crate::token::SignedToken;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 /// Content type of handshake payloads.
 pub enum HandshakeContentType {
