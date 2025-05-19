@@ -12,6 +12,7 @@
 //! This design supports scalable and secure delegation of responsibilities
 //! between nodes with varying trust levels.
 
+use crate::algorithms::SignatureAlgorithm;
 use serde::{Deserialize, Serialize};
 use std::ops::RangeInclusive;
 
@@ -44,7 +45,7 @@ pub struct Token {
 pub struct SignedToken {
     pub token: Token,
     pub signature: Vec<u8>,
-    pub signature_algorithm: u16,
+    pub signature_algorithm: SignatureAlgorithm,
 }
 
 /// Token permissions.

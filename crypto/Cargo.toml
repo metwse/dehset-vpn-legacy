@@ -4,6 +4,9 @@ version = "0.0.0"
 edition = "2024"
 
 [dependencies]
+proto-core = { path = "../proto-core/" }
+openssl = { workspace = true }
+paste = { workspace = true }
 
 [lints]
 workspace = true

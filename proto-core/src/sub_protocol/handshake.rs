@@ -4,7 +4,7 @@
 //! symmetric encryption mechanism. Nodes and servers are assumed to already
 //! share knowledge of the symmetric encryption key (e.g., AES).
 
-use crate::token::SignedToken;
+use crate::{algorithms::EncryptionAlgorithm, token::SignedToken};
 use serde::{Deserialize, Serialize};
 
 /// Content type of handshake payloads.
@@ -44,7 +44,7 @@ pub struct HandshakeError {
 #[derive(Serialize, Deserialize)]
 pub struct ClientHello {
     pub version: u16,
-    pub encryption_algorithm: u8,
+    pub encryption_algorithm: EncryptionAlgorithm,
 }
 
 /// Server response indicating whether the client's configuration

@@ -17,8 +17,12 @@ resolver = "2"
 [workspace.dependencies]
 tokio = "1"
 tracing = "0.1"
+
 serde = { version = "1", features = ["derive"] }
-openssl = { version = "0.10", fatures = ["vendored"] }
+
+openssl = { version = "0.10", features = ["vendored"] }
+
+paste = "1"
 
 
 [workspace.lints.clippy]
