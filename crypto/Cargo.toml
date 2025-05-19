@@ -8,5 +8,9 @@ proto-core = { path = "../proto-core/" }
 openssl = { workspace = true }
 paste = { workspace = true }
 
+[dev-dependencies]
+rand = { workspace = true, features = ["os_rng"] }
+hex = { workspace = true }
+
 [lints]
 workspace = true

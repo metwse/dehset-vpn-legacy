@@ -1,8 +1,9 @@
 use crate::CryptoError;
 use openssl::symm::{Cipher, decrypt, encrypt};
 
+/// AES 128 with CBC encryption algorithm.
 pub struct Aes128Cbc {
-    key: Vec<u8>
+    key: Vec<u8>,
 }
 
 impl Aes128Cbc {
@@ -10,11 +11,11 @@ impl Aes128Cbc {
         Aes128Cbc { key }
     }
 
-    pub fn encrypt(self, iv: &[u8], payload: &[u8]) -> Result<Vec<u8>, CryptoError> {
-        Ok(encrypt(Cipher::aes_128_cbc(), &self.key, Some(iv), payload)?)
+    pub fn encrypt(&self, iv: Option<&[u8]>, payload: &[u8]) -> Result<Vec<u8>, CryptoError> {
+        Ok(encrypt(Cipher::aes_128_cbc(), &self.key, iv, payload)?)
     }
 
-    pub fn decrypt(self, iv: &[u8], payload: &[u8]) -> Result<Vec<u8>, CryptoError> {
-        Ok(decrypt(Cipher::aes_128_cbc(), &self.key, Some(iv), payload)?)
+    pub fn decrypt(&self, iv: Option<&[u8]>, payload: &[u8]) -> Result<Vec<u8>, CryptoError> {
+        Ok(decrypt(Cipher::aes_128_cbc(), &self.key, iv, payload)?)
     }
 }

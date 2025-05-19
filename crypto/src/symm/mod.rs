@@ -3,4 +3,7 @@
 
 mod aes_128_cbc;
 
+#[cfg(test)]
+mod tests;
+
 pub use aes_128_cbc::*;

@@ -1,8 +1,9 @@
 use crate::CryptoError;
 use openssl::{
     hash::MessageDigest,
+    memcmp,
     pkey::{PKey, Private},
-    sign::{Signer, Verifier},
+    sign::Signer,
 };
 
 /// HMAC with SHA 256 symmetric keyed signature algorithm.
@@ -17,15 +18,17 @@ impl Hs256 {
         })
     }
 
-    pub fn sign(self, data: &[u8]) -> Result<Vec<u8>, CryptoError> {
+    pub fn sign(&self, data: &[u8]) -> Result<Vec<u8>, CryptoError> {
         let mut signer = Signer::new(MessageDigest::sha256(), &self.key)?;
         signer.update(data)?;
+
         Ok(signer.sign_to_vec()?)
     }
 
-    pub fn verify(self, data: &[u8], signature: &[u8]) -> Result<bool, CryptoError> {
-        let mut verifier = Verifier::new(MessageDigest::sha256(), &self.key)?;
-        verifier.update(&data)?;
-        Ok(verifier.verify(signature)?)
+    pub fn verify(&self, data: &[u8], signature: &[u8]) -> Result<bool, CryptoError> {
+        let mut signer = Signer::new(MessageDigest::sha256(), &self.key)?;
+        signer.update(data)?;
+
+        Ok(memcmp::eq(&signer.sign_to_vec()?, signature))
     }
 }
