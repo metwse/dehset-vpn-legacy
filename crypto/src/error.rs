@@ -11,9 +11,9 @@ impl std::fmt::Display for CryptoError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::OpenSslStack(openssl_error_stack) => {
-                write!(f, "openssl_error_stack: {openssl_error_stack}")
+                write!(f, "openssl error stack: {openssl_error_stack}")
             }
-            Self::OpenSsl(openssl_error) => write!(f, "openssl_error: {openssl_error}"),
+            Self::OpenSsl(openssl_error) => write!(f, "openssl error: {openssl_error}"),
         }
     }
 }

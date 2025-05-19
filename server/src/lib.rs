@@ -1,14 +1,32 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+//! VPN server construction utilities.
+//!
+//! Configure and initialize a VPN server using [`ServerBuilder`].
+//!
+//! # Example
+//! The following example demonstrates the most minimal server setup.
+//! ```no_run
+#![doc = include_str!("../examples/minimal-server.rs")]
+//! ```
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod error;
+mod handle_socket;
+mod server;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub use error::Error;
+pub use server::Server;
+
+use std::net::SocketAddr;
+
+/// Configuration structure for building and launching a VPN server instance.
+///
+/// [`ServerBuilder`] holds necessary cryptographic keys and network binding
+/// information used to initialize the protocol server.
+pub struct ServerBuilder {
+    /// Address to bind the server to (e.g., 0.0.0.0:781).
+    pub addr: SocketAddr,
+
+    /// Symmetric encryption key used for securing data.
+    pub encryption_key: Vec<u8>,
+    /// Signing key used for token authentication and message integrity.
+    pub signing_key: Vec<u8>,
 }
