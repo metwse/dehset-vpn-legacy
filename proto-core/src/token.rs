@@ -12,9 +12,11 @@
 //! This design supports scalable and secure delegation of responsibilities
 //! between nodes with varying trust levels.
 
+use serde::{Serialize, Deserialize};
 use std::ops::RangeInclusive;
 
 /// Node ID Token.
+#[derive(Serialize, Deserialize)]
 pub struct Token {
     /// Subject: Token ID, used for token revocation.
     pub sub: u64,
@@ -27,7 +29,7 @@ pub struct Token {
     pub name: String,
 
     /// Tags assigned to nodes with the [`TokenScope::ForwardPort`] permission.
-    pub tags: Vec<TokenTag>,
+    pub tags: Vec<String>,
 
     /// List of permissions associated with the token.
     pub scope: Vec<TokenScope>,
@@ -38,6 +40,7 @@ pub struct Token {
 }
 
 /// Signed [`Token`] variant.
+#[derive(Serialize, Deserialize)]
 pub struct SignedToken {
     pub token: Token,
     pub signature: Vec<u8>,
@@ -45,6 +48,7 @@ pub struct SignedToken {
 }
 
 /// Token permissions.
+#[derive(Serialize, Deserialize)]
 pub enum TokenScope {
     /// The lowest permission level. A salvage node can only forward ports.
     ForwardPort,
@@ -62,6 +66,7 @@ pub enum TokenScope {
 }
 
 /// Token tag enum.
+#[derive(Serialize, Deserialize)]
 pub enum TokenTag {
     /// A tag defined by a literal string.
     StringLiteral(String),

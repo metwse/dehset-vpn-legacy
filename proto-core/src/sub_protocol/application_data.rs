@@ -4,6 +4,8 @@
 //! initial connection requests, raw application data, and connection
 //! termination messages.
 
+use serde::{Serialize, Deserialize};
+
 /// Type of application-layer content encapsulated in the VPN tunnel.
 pub enum ApplicationDataContentType {
     /// Request to initiate a new connection to a given port.
@@ -15,6 +17,7 @@ pub enum ApplicationDataContentType {
 }
 
 /// Message sent to request a connection to a specific port on the remote host.
+#[derive(Serialize, Deserialize)]
 pub struct ConnectPort {
     /// The target port number to connect to.
     pub port: u16,
@@ -24,6 +27,7 @@ pub struct ConnectPort {
 }
 
 /// Carries raw application data through the tunnel.
+#[derive(Serialize, Deserialize)]
 pub struct ApplicationData {
     /// The binary payload to transmit.
     pub data: Vec<u8>,
@@ -32,6 +36,7 @@ pub struct ApplicationData {
 }
 
 /// Message to close an existing connection identified by its ID.
+#[derive(Serialize, Deserialize)]
 pub struct CloseConnection {
     /// ID of the connection to be terminated.
     pub connection_id: u64,

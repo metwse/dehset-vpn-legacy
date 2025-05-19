@@ -3,6 +3,7 @@
 //! Messages used for control-plane operations such as signing and revoking
 //! authentication tokens.
 
+use serde::{Serialize, Deserialize};
 use crate::token::{SignedToken, Token};
 
 /// Command message types sent to the server for administrative actions.
@@ -18,22 +19,26 @@ pub enum CmdResponseContentType {
 }
 
 /// Request to sign a new token.
+#[derive(Serialize, Deserialize)]
 pub struct SignToken {
     pub token: Token,
 }
 
 /// Response containing the signed token.
+#[derive(Serialize, Deserialize)]
 pub struct SignTokenResponse {
     pub signed_token: Option<SignedToken>,
     pub success: bool,
 }
 
 /// Request to revoke an existing token by its ID.
+#[derive(Serialize, Deserialize)]
 pub struct RevokeToken {
     pub token_id: u64,
 }
 
 /// Acknowledgement of successful token revocation.
+#[derive(Serialize, Deserialize)]
 pub struct RevokeTokenResponse {
     pub success: bool,
 }
