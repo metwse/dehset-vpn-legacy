@@ -3,6 +3,7 @@
 //! Configure and initialize a VPN client using [`ClientBuilder`].
 
 mod client;
+mod cmd;
 mod error;
 
 pub use client::Client;
@@ -10,6 +11,8 @@ pub use error::Error;
 
 use proto_core::SignedToken;
 use std::net::SocketAddr;
+
+pub use proto_core;
 
 /// Configuration structure for building and launching a VPN server instance.
 ///

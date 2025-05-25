@@ -1,7 +1,7 @@
 use crypto::CryptoError;
 use std::io::Error as IoError;
 
-/// Non-recoverable client error types. See `server::Error`.
+/// Client error types.
 #[derive(Debug)]
 pub enum Error {
     Crypto(CryptoError),

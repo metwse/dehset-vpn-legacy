@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 proto-core = { path = "../proto-core/" }
 crypto = { path = "../crypto/" }
-tokio = { workspace = true, features = ["net"] }
+tokio = { workspace = true, features = ["net", "io-util"] }
 paste = { workspace = true }
 
 [dev-dependencies]

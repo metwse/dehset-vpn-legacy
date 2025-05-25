@@ -4,8 +4,8 @@ use tokio::net::TcpStream;
 
 /// Internal VPN client struct.
 pub struct Client {
-    pub(crate) tcp_stream: TcpStream,
-    pub(crate) encrypter: Aes128Cbc,
+    pub(crate) _tcp_stream: TcpStream,
+    pub(crate) _encrypter: Aes128Cbc,
 }
 
 impl ClientBuilder {
@@ -14,8 +14,8 @@ impl ClientBuilder {
         let tcp_stream = TcpStream::connect(self.addr).await?;
 
         Ok(Client {
-            tcp_stream,
-            encrypter,
+            _tcp_stream: tcp_stream,
+            _encrypter: encrypter,
         })
     }
 }

@@ -19,7 +19,7 @@ use std::ops::RangeInclusive;
 /// Node ID Token.
 #[derive(Serialize, Deserialize)]
 pub struct Token {
-    /// Subject: Token ID, used for token revocation.
+    /// Subject: Token ID, used for token revocation and token identification.
     pub sub: u64,
     /// Issued at: Unix timestamp indicating when the token was issued.
     pub iat: u64,

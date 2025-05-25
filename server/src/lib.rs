@@ -17,6 +17,8 @@ pub use server::Server;
 
 use std::net::SocketAddr;
 
+pub use proto_core;
+
 /// Configuration structure for building and launching a VPN server instance.
 ///
 /// Cryptographic keys and network binding information used to initialize the

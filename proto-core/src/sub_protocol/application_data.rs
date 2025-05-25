@@ -19,6 +19,8 @@ pub enum ApplicationDataContentType {
 /// Message sent to request a connection to a specific port on the remote host.
 #[derive(Serialize, Deserialize)]
 pub struct ConnectPort {
+    /// Token ID of the target client.
+    pub token_id: u64,
     /// The target port number to connect to.
     pub port: u16,
     /// A connection ID that is unique per node and used to identify
