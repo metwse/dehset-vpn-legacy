@@ -1,5 +1,4 @@
-use super::handle_socket::handle_socket;
-use crate::{Error, ServerBuilder};
+use crate::{Error, ServerBuilder, handle_socket::handle_socket, handshake::handshake};
 use crypto::{sign::Hs256, symm::Aes128Cbc};
 use std::sync::Arc;
 use tokio::net::TcpListener;
@@ -15,7 +14,7 @@ pub struct Server {
 
 #[derive(Debug)]
 pub(crate) struct SharedState {
-    pub(crate) _signer: Hs256,
+    pub(crate) signer: Hs256,
     pub(crate) encrypter: Aes128Cbc,
 }
 
@@ -30,7 +29,7 @@ impl ServerBuilder {
 
         Ok(Server {
             shared_state: SharedState {
-                _signer: signer,
+                signer: signer,
                 encrypter: encrypter,
             },
             tcp_listener,
@@ -46,12 +45,17 @@ impl Server {
         trace!("Serving the server");
 
         loop {
-            let (tcp_stream, remote_addr) = self.tcp_listener.accept().await?;
+            let (mut tcp_stream, remote_addr) = self.tcp_listener.accept().await?;
             info!("Got connection from {remote_addr}");
             let state = Arc::clone(&shared_state);
-            handle_socket((tcp_stream, remote_addr), Arc::clone(&state))
-                .await
-                .ok();
+            let handshake = handshake((&mut tcp_stream, remote_addr), Arc::clone(&state)).await;
+            if let Err(_handshake_error) = handshake {
+                // TODO: Send handshake error alerts to the client
+            } else {
+                handle_socket((&mut tcp_stream, remote_addr), Arc::clone(&state))
+                    .await
+                    .ok();
+            }
             info!("Lost connection {remote_addr}");
         }
     }

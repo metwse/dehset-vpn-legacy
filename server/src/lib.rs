@@ -10,6 +10,7 @@
 
 mod error;
 mod handle_socket;
+mod handshake;
 mod server;
 
 pub use error::Error;
