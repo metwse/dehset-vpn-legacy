@@ -1,5 +1,5 @@
 use client::ClientBuilder;
-use crypto::sign::{sign_token, Hs256};
+use crypto::sign::{Hs256, sign_token};
 use testutil::generate_token;
 
 #[tokio::main]
@@ -14,8 +14,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = ClientBuilder {
         addr: "127.0.0.1:3781".parse()?,
         encryption_key: vec![0; 16],
-        token: signed_token
-    }.try_build().await?;
+        token: signed_token,
+    }
+    .try_build()
+    .await?;
 
     Ok(())
 }

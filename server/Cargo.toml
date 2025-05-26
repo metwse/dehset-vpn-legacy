@@ -6,12 +6,14 @@ edition = "2024"
 [dependencies]
 proto-core = { path = "../proto-core/" }
 crypto = { path = "../crypto/" }
-tokio = { workspace = true, features = ["net", "sync"] }
+tokio = { workspace = true, features = ["net", "sync", "io-util"] }
+bincode = { workspace = true }
 tracing = { workspace = true }
 paste = { workspace = true }
+rand = { workspace = true }
 
 [dev-dependencies]
-tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+tokio = { workspace = true, features = ["full"] }
 tracing-subscriber = { workspace = true }
 
 [lints]

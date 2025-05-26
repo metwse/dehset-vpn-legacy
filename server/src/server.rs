@@ -16,7 +16,7 @@ pub struct Server {
 #[derive(Debug)]
 pub(crate) struct SharedState {
     pub(crate) _signer: Hs256,
-    pub(crate) _encrypter: Aes128Cbc,
+    pub(crate) encrypter: Aes128Cbc,
 }
 
 impl ServerBuilder {
@@ -31,7 +31,7 @@ impl ServerBuilder {
         Ok(Server {
             shared_state: SharedState {
                 _signer: signer,
-                _encrypter: encrypter,
+                encrypter: encrypter,
             },
             tcp_listener,
         })
@@ -49,7 +49,9 @@ impl Server {
             let (tcp_stream, remote_addr) = self.tcp_listener.accept().await?;
             info!("Got connection from {remote_addr}");
             let state = Arc::clone(&shared_state);
-            handle_socket((tcp_stream, remote_addr), state).await;
+            handle_socket((tcp_stream, remote_addr), Arc::clone(&state))
+                .await
+                .ok();
             info!("Lost connection {remote_addr}");
         }
     }

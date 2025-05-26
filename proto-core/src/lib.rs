@@ -26,3 +26,15 @@ pub struct Payload {
     pub content_length: u16,
     pub payload: Vec<u8>,
 }
+
+#[macro_export]
+macro_rules! random_bytes {
+    ($n:expr) => {{
+        use rand::rand_core::{OsRng, TryRngCore};
+
+        let mut key = [0u8; $n];
+        OsRng.try_fill_bytes(&mut key).unwrap();
+
+        key
+    }};
+}

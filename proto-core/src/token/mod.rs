@@ -21,7 +21,7 @@ use serde::{Deserialize, Serialize};
 use std::ops::RangeInclusive;
 
 /// Node ID Token.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Token {
     /// Subject: Token ID, used for token revocation.
     pub sub: u64,
@@ -45,7 +45,7 @@ pub struct Token {
 }
 
 /// Signed [`Token`] variant.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct SignedToken {
     pub token: Token,
     pub signature: Vec<u8>,
@@ -53,7 +53,7 @@ pub struct SignedToken {
 }
 
 /// Token permissions.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum TokenScope {
     /// The lowest permission level. A salvage node can only forward ports.
     ForwardPort,
@@ -71,7 +71,7 @@ pub enum TokenScope {
 }
 
 /// Token tag enum.
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum TokenTag {
     /// A tag defined by a literal string.
     StringLiteral(String),

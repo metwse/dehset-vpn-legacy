@@ -1,6 +1,7 @@
 use super::*;
 use hex;
-use testutil::{DynResult, random_bytes};
+use proto_core::random_bytes;
+use testutil::DynResult;
 
 #[test]
 fn signature() -> DynResult<()> {

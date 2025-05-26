@@ -1,5 +1,6 @@
 use super::*;
-use crate::{DynResult, random_bytes};
+use crate::DynResult;
+use proto_core::random_bytes;
 
 #[test]
 fn random() -> DynResult<()> {

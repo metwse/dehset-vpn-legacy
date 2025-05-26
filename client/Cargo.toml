@@ -9,6 +9,8 @@ crypto = { path = "../crypto/" }
 tokio = { workspace = true, features = ["net", "io-util"] }
 tracing = { workspace = true }
 paste = { workspace = true }
+bincode = { workspace = true }
+rand = { workspace = true }
 
 [dev-dependencies]
 tokio = { workspace = true, features = ["net", "io-util", "rt-multi-thread", "macros"] }

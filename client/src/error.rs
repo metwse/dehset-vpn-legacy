@@ -1,3 +1,4 @@
+use bincode::error::{DecodeError, EncodeError};
 use crypto::CryptoError;
 use std::io::Error as IoError;
 
@@ -6,6 +7,9 @@ use std::io::Error as IoError;
 pub enum Error {
     Crypto(CryptoError),
     Io(IoError),
+    Encode(EncodeError),
+    Decode(DecodeError),
+    Handshake(&'static str),
 }
 
 impl std::fmt::Display for Error {
@@ -13,10 +17,13 @@ impl std::fmt::Display for Error {
         match self {
             Self::Crypto(crypto_error) => write!(f, "crypto: {crypto_error}"),
             Self::Io(io_error) => write!(f, "io: {io_error}"),
+            Self::Encode(encode_error) => write!(f, "encode: {encode_error}"),
+            Self::Decode(decode_error) => write!(f, "encode: {decode_error}"),
+            Self::Handshake(details) => write!(f, "handshake: {details}"),
         }
     }
 }
 
 impl std::error::Error for Error {}
 
-proto_core::error_impl_from!(Error; Crypto, Io);
+proto_core::error_impl_from!(Error; Crypto, Io, Encode, Decode);
