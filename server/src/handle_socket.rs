@@ -1,10 +1,11 @@
 use crate::server::SharedState;
 use std::{net::SocketAddr, sync::Arc};
 use tokio::net::TcpStream;
+use tracing::instrument;
 
+#[instrument(skip(state, tcp_stream))]
 pub(crate) async fn handle_socket(
-    (_tcp_stream, _remote_addr): (TcpStream, SocketAddr),
-    _state: Arc<SharedState>,
+    (tcp_stream, remote_addr): (TcpStream, SocketAddr),
+    state: Arc<SharedState>,
 ) {
-    todo!();
 }

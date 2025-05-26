@@ -23,6 +23,7 @@ pub use proto_core;
 ///
 /// Cryptographic keys and network binding information used to initialize the
 /// protocol server.
+#[derive(Debug)]
 pub struct ServerBuilder {
     /// Address to bind the server to (e.g., 0.0.0.0:781).
     pub addr: SocketAddr,

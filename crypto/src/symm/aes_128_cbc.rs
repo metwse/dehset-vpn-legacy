@@ -2,6 +2,7 @@ use crate::CryptoError;
 use openssl::symm::{Cipher, decrypt, encrypt};
 
 /// AES 128 with CBC encryption algorithm.
+#[derive(Debug)]
 pub struct Aes128Cbc {
     key: Vec<u8>,
 }

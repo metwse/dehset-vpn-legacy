@@ -7,6 +7,7 @@ use openssl::{
 };
 
 /// HMAC with SHA 256 symmetric keyed signature algorithm.
+#[derive(Debug)]
 pub struct Hs256 {
     key: PKey<Private>,
 }
