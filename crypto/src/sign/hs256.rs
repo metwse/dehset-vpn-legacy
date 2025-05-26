@@ -1,3 +1,4 @@
+use super::{SignatureAlgorithm as TSignatureAlgorithm, Signer as TSigner, Verifier as TVerifier};
 use crate::CryptoError;
 use openssl::{
     hash::MessageDigest,
@@ -5,6 +6,7 @@ use openssl::{
     pkey::{PKey, Private},
     sign::Signer,
 };
+use proto_core::SignatureAlgorithm;
 
 /// HMAC with SHA 256 symmetric keyed signature algorithm.
 #[derive(Debug)]
@@ -18,15 +20,25 @@ impl Hs256 {
             key: PKey::hmac(key)?,
         })
     }
+}
 
-    pub fn sign(&self, data: &[u8]) -> Result<Vec<u8>, CryptoError> {
+impl TSignatureAlgorithm for Hs256 {
+    fn algorithm() -> SignatureAlgorithm {
+        SignatureAlgorithm::HmacSha256
+    }
+}
+
+impl TSigner for Hs256 {
+    fn sign(&self, data: &[u8]) -> Result<Vec<u8>, CryptoError> {
         let mut signer = Signer::new(MessageDigest::sha256(), &self.key)?;
         signer.update(data)?;
 
         Ok(signer.sign_to_vec()?)
     }
+}
 
-    pub fn verify(&self, data: &[u8], signature: &[u8]) -> Result<bool, CryptoError> {
+impl TVerifier for Hs256 {
+    fn verify(&self, data: &[u8], signature: &[u8]) -> Result<bool, CryptoError> {
         let mut signer = Signer::new(MessageDigest::sha256(), &self.key)?;
         signer.update(data)?;
 

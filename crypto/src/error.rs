@@ -1,10 +1,12 @@
 use openssl::error::{Error as OpenSslError, ErrorStack as OpenSslStackError};
+use proto_core::TokenError;
 
 /// Crypto error types.
 #[derive(Debug)]
 pub enum CryptoError {
     OpenSslStack(OpenSslStackError),
     OpenSsl(OpenSslError),
+    Token(TokenError),
 }
 
 impl std::fmt::Display for CryptoError {
@@ -14,10 +16,11 @@ impl std::fmt::Display for CryptoError {
                 write!(f, "openssl error stack: {openssl_error_stack}")
             }
             Self::OpenSsl(openssl_error) => write!(f, "openssl error: {openssl_error}"),
+            Self::Token(token_error) => write!(f, "token error: {token_error}"),
         }
     }
 }
 
 impl std::error::Error for CryptoError {}
 
-proto_core::error_impl_from!(CryptoError; OpenSsl, OpenSslStack);
+proto_core::error_impl_from!(CryptoError; OpenSsl, OpenSslStack, Token);

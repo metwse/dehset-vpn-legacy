@@ -7,7 +7,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     let server = ServerBuilder {
-        addr: "0.0.0.0:3781".parse().unwrap(),
+        addr: "0.0.0.0:3781".parse()?,
         encryption_key: vec![0; 16],
         signing_key: vec![0; 32],
     }

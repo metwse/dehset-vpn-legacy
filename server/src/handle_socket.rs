@@ -3,9 +3,9 @@ use std::{net::SocketAddr, sync::Arc};
 use tokio::net::TcpStream;
 use tracing::instrument;
 
-#[instrument(skip(state, tcp_stream))]
+#[instrument(skip(_state, _tcp_stream))]
 pub(crate) async fn handle_socket(
-    (tcp_stream, remote_addr): (TcpStream, SocketAddr),
-    state: Arc<SharedState>,
+    (_tcp_stream, remote_addr): (TcpStream, SocketAddr),
+    _state: Arc<SharedState>,
 ) {
 }

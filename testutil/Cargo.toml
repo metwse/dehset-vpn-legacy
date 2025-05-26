@@ -1,0 +1,12 @@
+[package]
+name = "testutil"
+version = "0.0.0"
+description = "Test utilities and integration tests."
+edition = "2024"
+
+[dependencies]
+proto-core = { path = "../proto-core/" }
+crypto = { path = "../crypto/" }
+
+[lints]
+workspace = true

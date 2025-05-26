@@ -1,10 +1,7 @@
 //! Protocol-level cryptographic functions.
 
 #[cfg(test)]
-mod testutil;
-
-#[cfg(test)]
-pub use testutil::*;
+use testutil::*;
 
 mod error;
 pub mod sign;

@@ -12,6 +12,10 @@
 //! This design supports scalable and secure delegation of responsibilities
 //! between nodes with varying trust levels.
 
+mod error;
+
+pub use error::TokenError;
+
 use crate::algorithms::SignatureAlgorithm;
 use serde::{Deserialize, Serialize};
 use std::ops::RangeInclusive;
@@ -19,7 +23,7 @@ use std::ops::RangeInclusive;
 /// Node ID Token.
 #[derive(Serialize, Deserialize)]
 pub struct Token {
-    /// Subject: Token ID, used for token revocation and token identification.
+    /// Subject: Token ID, used for token revocation.
     pub sub: u64,
     /// Issued at: Unix timestamp indicating when the token was issued.
     pub iat: u64,
@@ -73,4 +77,14 @@ pub enum TokenTag {
     StringLiteral(String),
     /// A tag defined by a regular expression.
     Regex(String),
+}
+
+impl Token {
+    /// Encode token into binary format. Used in signature verification.
+    pub fn encode(&self) -> Result<Vec<u8>, TokenError> {
+        Ok(bincode::serde::encode_to_vec(
+            self,
+            bincode::config::standard(),
+        )?)
+    }
 }

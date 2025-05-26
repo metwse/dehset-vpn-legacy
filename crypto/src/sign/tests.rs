@@ -1,6 +1,6 @@
 use super::*;
-use crate::{DynResult, random_bytes};
 use hex;
+use testutil::{DynResult, random_bytes};
 
 #[test]
 fn signature() -> DynResult<()> {
@@ -27,6 +27,26 @@ fn random() -> DynResult<()> {
 
     data[0] += 1;
     assert!(!signer.verify(&data, &signature)?);
+
+    Ok(())
+}
+
+#[test]
+fn sign_token() -> DynResult<()> {
+    let token = testutil::generate_token(1, String::from("Test"), vec![String::from("test")]);
+    let signer = Hs256::try_new(&random_bytes!(512))?;
+
+    let signed_token = super::token::sign_token(token, &signer)?;
+
+    assert_eq!(
+        signed_token.signature,
+        signer.sign(&signed_token.token.encode()?[..])?
+    );
+
+    assert!(signer.verify(
+        &signed_token.token.encode()?[..],
+        &signed_token.signature[..]
+    )?);
 
     Ok(())
 }

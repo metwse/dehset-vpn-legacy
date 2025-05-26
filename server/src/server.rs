@@ -1,9 +1,9 @@
 use super::handle_socket::handle_socket;
 use crate::{Error, ServerBuilder};
 use crypto::{sign::Hs256, symm::Aes128Cbc};
-use tracing::{info, instrument, trace};
 use std::sync::Arc;
 use tokio::net::TcpListener;
+use tracing::{info, instrument, trace};
 
 /// Internal VPN server struct holding shared state.
 #[derive(Debug)]

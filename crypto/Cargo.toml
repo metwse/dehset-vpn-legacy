@@ -9,6 +9,7 @@ openssl = { workspace = true }
 paste = { workspace = true }
 
 [dev-dependencies]
+testutil = { path = "../testutil/" }
 rand = { workspace = true, features = ["os_rng"] }
 hex = { workspace = true }
 
