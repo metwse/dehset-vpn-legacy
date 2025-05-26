@@ -1,5 +1,6 @@
 use bincode::error::{DecodeError, EncodeError};
 use crypto::CryptoError;
+use proto_core::sub_protocol2::handshake::HandshakeAlert as HandshakeError;
 use std::io::Error as IoError;
 
 /// Client error types.
@@ -9,7 +10,7 @@ pub enum Error {
     Io(IoError),
     Encode(EncodeError),
     Decode(DecodeError),
-    Handshake(&'static str),
+    Handshake(HandshakeError),
 }
 
 impl std::fmt::Display for Error {
@@ -19,11 +20,11 @@ impl std::fmt::Display for Error {
             Self::Io(io_error) => write!(f, "io: {io_error}"),
             Self::Encode(encode_error) => write!(f, "encode: {encode_error}"),
             Self::Decode(decode_error) => write!(f, "encode: {decode_error}"),
-            Self::Handshake(details) => write!(f, "handshake: {details}"),
+            Self::Handshake(handshake_alert) => write!(f, "handshake: {handshake_alert:?}"),
         }
     }
 }
 
 impl std::error::Error for Error {}
 
-proto_core::error_impl_from!(Error; Crypto, Io, Encode, Decode);
+proto_core::error_impl_from!(Error; Crypto, Io, Encode, Decode, Handshake);

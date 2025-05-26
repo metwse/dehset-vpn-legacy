@@ -8,7 +8,7 @@ pub fn sign_token<S: Signer + SignatureAlgorithm>(
 ) -> Result<SignedToken, CryptoError> {
     Ok(SignedToken {
         signature: signer.sign(&token.encode()?[..])?,
-        token: token,
+        token,
         signature_algorithm: S::algorithm(),
     })
 }

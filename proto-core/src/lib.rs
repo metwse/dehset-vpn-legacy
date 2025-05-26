@@ -14,6 +14,7 @@ mod macros;
 
 pub mod algorithms;
 pub mod sub_protocol;
+pub mod sub_protocol2;
 pub mod token;
 
 pub use algorithms::*;

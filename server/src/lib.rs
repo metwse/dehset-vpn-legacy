@@ -8,9 +8,8 @@
 #![doc = include_str!("../examples/minimal-server.rs")]
 //! ```
 
+mod connection;
 mod error;
-mod handle_socket;
-mod handshake;
 mod server;
 
 pub use error::Error;

@@ -1,4 +1,4 @@
-use crate::{Error, ServerBuilder, handle_socket::handle_socket, handshake::handshake};
+use crate::{Error, ServerBuilder, connection::Connection};
 use crypto::{sign::Hs256, symm::Aes128Cbc};
 use std::sync::Arc;
 use tokio::net::TcpListener;
@@ -14,8 +14,8 @@ pub struct Server {
 
 #[derive(Debug)]
 pub(crate) struct SharedState {
-    pub(crate) signer: Hs256,
-    pub(crate) encrypter: Aes128Cbc,
+    pub(crate) _signer: Hs256,
+    pub(crate) _encrypter: Aes128Cbc,
 }
 
 impl ServerBuilder {
@@ -29,8 +29,8 @@ impl ServerBuilder {
 
         Ok(Server {
             shared_state: SharedState {
-                signer: signer,
-                encrypter: encrypter,
+                _signer: signer,
+                _encrypter: encrypter,
             },
             tcp_listener,
         })
@@ -45,17 +45,23 @@ impl Server {
         trace!("Serving the server");
 
         loop {
-            let (mut tcp_stream, remote_addr) = self.tcp_listener.accept().await?;
+            let (tcp_stream, remote_addr) = self.tcp_listener.accept().await?;
             info!("Got connection from {remote_addr}");
             let state = Arc::clone(&shared_state);
-            let handshake = handshake((&mut tcp_stream, remote_addr), Arc::clone(&state)).await;
-            if let Err(_handshake_error) = handshake {
-                // TODO: Send handshake error alerts to the client
+
+            let mut connection = Connection {
+                tcp_stream,
+                _remote_addr: remote_addr,
+                _state: state,
+            };
+
+            if let Err(handshake_alert) = connection.handshake().await {
+                info!("Could not complete handshake: {handshake_alert:?}")
+                // TODO: Send handshake alerts to the client.
             } else {
-                handle_socket((&mut tcp_stream, remote_addr), Arc::clone(&state))
-                    .await
-                    .ok();
+                // TODO: Handle socket.
             }
+
             info!("Lost connection {remote_addr}");
         }
     }
