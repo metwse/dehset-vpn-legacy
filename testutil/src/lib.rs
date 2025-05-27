@@ -21,3 +21,14 @@ pub fn generate_token(id: u64, name: String, tags: Vec<String>) -> Token {
 }
 
 pub type DynResult<T> = Result<T, Box<dyn std::error::Error>>;
+
+#[macro_export]
+macro_rules! send_handshake_payload {
+    ($w: expr, $content_type:expr, $payload:expr) => {
+        {
+            let payload = bincode::serde::encode_to_vec(&$payload, bincode::config::standard())?;
+
+            write_handshake_payload($w, $content_type, &payload).await.unwrap();
+        }
+    };
+}

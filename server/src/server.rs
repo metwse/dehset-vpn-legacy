@@ -52,7 +52,9 @@ impl Server {
             info!("Got connection from {remote_addr}");
             let state = Arc::clone(&shared_state);
 
-            if let Err(handshake_alert) = do_handshake(&mut tcp_stream).await {
+            let (mut r, mut w) = tcp_stream.split();
+
+            if let Err(handshake_alert) = do_handshake(&mut r, &mut w).await {
                 info!("Could not complete handshake: {handshake_alert:?}")
                 // TODO: Send handshake alerts to the client.
             } else {

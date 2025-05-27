@@ -13,6 +13,7 @@ paste = { workspace = true }
 rand = { workspace = true }
 
 [dev-dependencies]
+testutil = { path = "../testutil/" }
 tokio = { workspace = true, features = ["full"] }
 tracing-subscriber = { workspace = true }
 
