@@ -10,10 +10,7 @@
 
 use serde::{Deserialize, Serialize};
 use std::ops::RangeInclusive;
-use tokio::{
-    io::{AsyncReadExt, AsyncWriteExt},
-    net::TcpStream,
-};
+use tokio::io::{AsyncReadExt, AsyncRead, AsyncWriteExt, AsyncWrite};
 
 use crate::{EncryptionAlgorithm, SignatureAlgorithm};
 
@@ -111,29 +108,29 @@ pub struct Finished {
 }
 
 /// Reads a handshake payload from the TCP stream.
-pub async fn read_handshake_payload(
-    tcp_stream: &mut TcpStream,
+pub async fn read_handshake_payload<R: Unpin + AsyncRead>(
+    r: &mut R,
 ) -> Result<(HandshakeContentType, Vec<u8>), HandshakeAlert> {
-    let content_length = tcp_stream.read_u16().await?;
+    let content_length = r.read_u16().await?;
 
-    let handshake_content_type = tcp_stream.read_u8().await?;
+    let handshake_content_type = r.read_u8().await?;
     let handshake_content_type = HandshakeContentType::try_from(handshake_content_type)?;
 
     let mut payload = vec![0; content_length as usize];
-    tcp_stream.read_exact(&mut payload).await?;
+    r.read_exact(&mut payload).await?;
 
     Ok((handshake_content_type, payload))
 }
 
 /// Writes the handshake payload to the TCP stream.
-pub async fn write_handshake_payload(
-    tcp_stream: &mut TcpStream,
+pub async fn write_handshake_payload<W: Unpin + AsyncWrite>(
+    w: &mut W,
     handshake_content_type: HandshakeContentType,
     payload: &[u8],
 ) -> Result<(), HandshakeAlert> {
-    tcp_stream.write_u16(payload.len() as u16).await?;
-    tcp_stream.write_u8(handshake_content_type as u8).await?;
-    tcp_stream.write_all(payload).await?;
+    w.write_u16(payload.len() as u16).await?;
+    w.write_u8(handshake_content_type as u8).await?;
+    w.write_all(payload).await?;
 
     Ok(())
 }

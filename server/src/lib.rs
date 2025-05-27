@@ -8,7 +8,7 @@
 #![doc = include_str!("../examples/minimal-server.rs")]
 //! ```
 
-mod connection;
+pub mod connection;
 mod error;
 mod server;
 

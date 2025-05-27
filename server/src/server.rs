@@ -1,4 +1,7 @@
-use crate::{Error, ServerBuilder, connection::Connection};
+use crate::{
+    Error, ServerBuilder,
+    connection::{Connection, do_handshake},
+};
 use crypto::{sign::Hs256, symm::Aes128Cbc};
 use std::sync::Arc;
 use tokio::net::TcpListener;
@@ -45,20 +48,19 @@ impl Server {
         trace!("Serving the server");
 
         loop {
-            let (tcp_stream, remote_addr) = self.tcp_listener.accept().await?;
+            let (mut tcp_stream, remote_addr) = self.tcp_listener.accept().await?;
             info!("Got connection from {remote_addr}");
             let state = Arc::clone(&shared_state);
 
-            let mut connection = Connection {
-                tcp_stream,
-                _remote_addr: remote_addr,
-                _state: state,
-            };
-
-            if let Err(handshake_alert) = connection.handshake().await {
+            if let Err(handshake_alert) = do_handshake(&mut tcp_stream).await {
                 info!("Could not complete handshake: {handshake_alert:?}")
                 // TODO: Send handshake alerts to the client.
             } else {
+                let mut _connection = Connection {
+                    _tcp_stream: tcp_stream,
+                    _remote_addr: remote_addr,
+                    _state: state,
+                };
                 // TODO: Handle socket.
             }
 

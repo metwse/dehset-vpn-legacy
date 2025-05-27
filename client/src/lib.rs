@@ -4,6 +4,7 @@
 
 mod client;
 mod cmd;
+pub mod connection;
 mod error;
 
 pub use client::Client;
