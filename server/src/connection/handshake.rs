@@ -1,8 +1,8 @@
 use proto_core::{
-    random_bytes,
-    sub_protocol2::handshake::{
+    handshake::{
         self, HandshakeAlert, HandshakeContentType, read_handshake_payload, write_handshake_payload,
     },
+    random_bytes,
 };
 use tokio::io::{AsyncRead, AsyncWrite};
 use tracing::{info, instrument, trace};
@@ -71,12 +71,10 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
 mod tests {
     use super::do_handshake;
     use proto_core::{
+        handshake::{self, HandshakeAlert, HandshakeContentType, read_handshake_payload},
         random_bytes,
-        sub_protocol2::handshake::{
-            self, HandshakeAlert, HandshakeContentType, read_handshake_payload
-        },
     };
-    use testutil::{send_handshake_payload, DynResult};
+    use testutil::{DynResult, send_handshake_payload};
     use tokio::io::simplex;
 
     #[tokio::test]

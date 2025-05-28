@@ -24,13 +24,14 @@ pub type DynResult<T> = Result<T, Box<dyn std::error::Error>>;
 
 #[macro_export]
 macro_rules! send_handshake_payload {
-    ($w: expr, $content_type:expr, $payload:expr) => {
-        {
-            use proto_core::sub_protocol2::handshake::write_handshake_payload;
+    ($w: expr, $content_type:expr, $payload:expr) => {{
+        use proto_core::handshake::write_handshake_payload;
 
-            let payload = bincode::serde::encode_to_vec(&$payload, bincode::config::standard()).unwrap();
+        let payload =
+            bincode::serde::encode_to_vec(&$payload, bincode::config::standard()).unwrap();
 
-            write_handshake_payload($w, $content_type, &payload).await.unwrap();
-        }
-    };
+        write_handshake_payload($w, $content_type, &payload)
+            .await
+            .unwrap();
+    }};
 }

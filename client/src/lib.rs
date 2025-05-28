@@ -3,7 +3,6 @@
 //! Configure and initialize a VPN client using [`ClientBuilder`].
 
 mod client;
-mod cmd;
 pub mod connection;
 mod error;
 

@@ -14,19 +14,11 @@ mod macros;
 
 pub mod algorithms;
 pub mod sub_protocol;
-pub mod sub_protocol2;
 pub mod token;
 
 pub use algorithms::*;
 pub use sub_protocol::*;
 pub use token::*;
-
-/// Low-level payload structure transmitted over the internet.
-pub struct Payload {
-    pub content_type: ContentType,
-    pub content_length: u16,
-    pub payload: Vec<u8>,
-}
 
 #[macro_export]
 macro_rules! random_bytes {
