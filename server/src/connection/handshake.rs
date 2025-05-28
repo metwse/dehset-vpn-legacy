@@ -69,21 +69,18 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
 
 #[cfg(test)]
 mod tests {
-    use core::panic;
-
     use super::do_handshake;
     use proto_core::{
         random_bytes,
         sub_protocol2::handshake::{
-            self, HandshakeAlert, HandshakeContentType, read_handshake_payload,
-            write_handshake_payload,
+            self, HandshakeAlert, HandshakeContentType, read_handshake_payload
         },
     };
-    use testutil::send_handshake_payload;
+    use testutil::{send_handshake_payload, DynResult};
     use tokio::io::simplex;
 
     #[tokio::test]
-    async fn expected_client_hello() -> Result<(), Box<dyn std::error::Error>> {
+    async fn expected_client_hello() -> DynResult<()> {
         let (mut sr, mut cw) = simplex(u16::MAX as usize);
         let (_, mut sw) = simplex(u16::MAX as usize);
 
@@ -104,7 +101,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn server_hello() -> Result<(), Box<dyn std::error::Error>> {
+    async fn server_hello() -> DynResult<()> {
         let (mut sr, mut cw) = simplex(u16::MAX as usize);
         let (mut cr, mut sw) = simplex(u16::MAX as usize);
 
@@ -128,7 +125,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn expected_finished() -> Result<(), Box<dyn std::error::Error>> {
+    async fn expected_finished() -> DynResult<()> {
         let (mut sr, mut cw) = simplex(u16::MAX as usize);
         let (mut cr, mut sw) = simplex(u16::MAX as usize);
 
