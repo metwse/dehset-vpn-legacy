@@ -7,6 +7,9 @@ edition = "2024"
 [dependencies]
 proto-core = { path = "../proto-core/" }
 crypto = { path = "../crypto/" }
+server = { path = "../server/" }
+client = { path = "../client/" }
+tokio = { workspace = true, features = ["full"] }
 
 [lints]
 workspace = true
