@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 serde = { workspace = true }
-tokio = { workspace = true }
+tokio = { workspace = true, features = ["io-util"] }
 bincode = { workspace = true }
 paste = { workspace = true }
 
