@@ -3,16 +3,17 @@
 mod handshake;
 
 pub use handshake::do_handshake;
+use proto_core::TlsProvider;
 
 use crate::server::SharedState;
-use std::{net::SocketAddr, sync::Arc};
+use std::sync::Arc;
 use tokio::net::TcpStream;
 
 /// Represents a client connection to the server.
 ///
 /// Wraps the underlying TCP stream, remote address, and shared server state.
-pub struct Connection {
+pub struct Connection<T: TlsProvider> {
     pub(crate) _tcp_stream: TcpStream,
-    pub(crate) _remote_addr: SocketAddr,
     pub(crate) _state: Arc<SharedState>,
+    pub(crate) _tls: T,
 }

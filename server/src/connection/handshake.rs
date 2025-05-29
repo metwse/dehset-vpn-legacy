@@ -15,7 +15,7 @@ use tracing::{info, instrument, trace};
 pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
     r: &mut R,
     w: &mut W,
-) -> Result<(), HandshakeAlert> {
+) -> Result<([u8; 32], [u8; 32]), HandshakeAlert> {
     let (content_type, payload) = read_handshake_payload(r).await?;
 
     // The server expects the client's first payload to be a `ClientHello`.
@@ -26,7 +26,7 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
         });
     }
 
-    let client_hello: (handshake::ClientHello, _) =
+    let (client_hello, _): (handshake::ClientHello, _) =
         bincode::serde::decode_from_slice(&payload, bincode::config::standard())
             .map_err(|_| HandshakeAlert::InvalidPayload)?;
 
@@ -56,7 +56,7 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
         });
     }
 
-    let finished: (handshake::Finished, _) =
+    let (finished, _): (handshake::Finished, _) =
         bincode::serde::decode_from_slice(&payload, bincode::config::standard())
             .map_err(|_| HandshakeAlert::InvalidPayload)?;
 
@@ -64,7 +64,7 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
 
     info!("Handshake is done.");
 
-    Ok(())
+    Ok((server_random, finished.random))
 }
 
 #[cfg(test)]

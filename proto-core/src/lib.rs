@@ -7,6 +7,7 @@
 //! - [`token`]: Authentication token structures and scopes.
 //! - [`sub_protocol`]: Definitions for handshake, command, and data payloads.
 //! - [`algorithms`]: Supported encryption and signature algorithms.
+//! - [`tls_provider`]: Defines an encryption trait.
 //!
 //! See the documentation of each module for details.
 
@@ -14,10 +15,12 @@ mod macros;
 
 pub mod algorithms;
 pub mod sub_protocol;
+pub mod tls_provider;
 pub mod token;
 
 pub use algorithms::*;
 pub use sub_protocol::*;
+pub use tls_provider::*;
 pub use token::*;
 
 #[macro_export]

@@ -7,6 +7,7 @@ pub enum CryptoError {
     OpenSslStack(OpenSslStackError),
     OpenSsl(OpenSslError),
     Token(TokenError),
+    InvalidShasum,
 }
 
 impl std::fmt::Display for CryptoError {
@@ -17,6 +18,7 @@ impl std::fmt::Display for CryptoError {
             }
             Self::OpenSsl(openssl_error) => write!(f, "openssl error: {openssl_error}"),
             Self::Token(token_error) => write!(f, "token error: {token_error}"),
+            Self::InvalidShasum => write!(f, "could not verify shasum"),
         }
     }
 }

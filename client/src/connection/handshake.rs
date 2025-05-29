@@ -16,7 +16,7 @@ use tracing::{info, instrument, trace};
 pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
     r: &mut R,
     w: &mut W,
-) -> Result<(), Error> {
+) -> Result<([u8; 32], [u8; 32]), Error> {
     let client_hello = handshake::ClientHello {
         version: 0,
         encryption_algorithm: proto_core::EncryptionAlgorithm::Aes128CbcSha256,
@@ -49,7 +49,7 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
     }
 
     // TODO: decrypt
-    let server_hello: (handshake::ServerHello, _) =
+    let (server_hello, _): (handshake::ServerHello, _) =
         bincode::serde::decode_from_slice(&payload, bincode::config::standard())
             .map_err(|_| HandshakeAlert::InvalidPayload)?;
 
@@ -70,7 +70,7 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
 
     info!("Handshake is done.");
 
-    Ok(())
+    Ok((server_hello.random, client_random))
 }
 
 #[cfg(test)]
