@@ -1,8 +1,8 @@
-use crate::{connection::do_handshake, ClientBuilder, Error};
+use crate::{ClientBuilder, Error, connection::do_handshake};
 use crypto::{symm::Aes128CbcSha256, tls::SymmTls};
+use std::sync::Arc;
 use tokio::net::TcpStream;
 use tracing::{instrument, trace};
-use std::sync::Arc;
 
 /// Internal VPN client struct.
 pub struct Client {
@@ -25,7 +25,7 @@ impl ClientBuilder {
 
         let client = Client {
             _tcp_stream: tcp_stream,
-            _tls: tls
+            _tls: tls,
         };
 
         Ok(client)

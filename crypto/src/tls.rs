@@ -2,18 +2,21 @@
 
 use crate::{CryptoError, symm::Aes128CbcSha256};
 use proto_core::TlsProvider;
-use std::sync::{Mutex, Arc};
+use std::sync::{Arc, Mutex};
 
 /// Encrption layer implementing symmetric encrption.
 pub struct SymmTls {
     encrpyt_iv: Mutex<[u8; 32]>,
     decrypt_iv: Mutex<[u8; 32]>,
-    encrpter: Arc<Aes128CbcSha256,>
+    encrpter: Arc<Aes128CbcSha256>,
 }
 
 impl SymmTls {
     /// Creates a new [`SymmTls`].
-    pub fn new((server_iv, client_iv): ([u8; 32], [u8; 32]), encrpter: Arc<Aes128CbcSha256>) -> SymmTls {
+    pub fn new(
+        (server_iv, client_iv): ([u8; 32], [u8; 32]),
+        encrpter: Arc<Aes128CbcSha256>,
+    ) -> SymmTls {
         let mut hasher = openssl::sha::Sha256::new();
         hasher.update(&server_iv);
         hasher.update(&client_iv);
@@ -82,8 +85,8 @@ mod tests {
     use super::SymmTls;
     use crate::{CryptoError, symm::Aes128CbcSha256};
     use proto_core::{TlsProvider, random_bytes};
-    use testutil::DynResult;
     use std::sync::Arc;
+    use testutil::DynResult;
 
     #[test]
     fn symm_tls_fuzz() -> DynResult<()> {

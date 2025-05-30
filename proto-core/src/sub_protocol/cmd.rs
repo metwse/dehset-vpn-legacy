@@ -15,13 +15,13 @@ pub struct Authenticate {
 
 /// Command-level response payloads.
 #[derive(Debug, Serialize, Deserialize)]
-pub enum Cmd {
+pub enum CmdEnum {
     Authenticate(Authenticate),
 }
 
 /// Payload structure wrapping a command response with an identifier.
 #[derive(Debug, Serialize, Deserialize)]
-pub struct CmdPayload {
+pub struct Cmd {
     pub response_id: u64,
-    pub payload: Cmd,
+    pub payload: CmdEnum,
 }
