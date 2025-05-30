@@ -2,7 +2,7 @@ use super::{Tunnel, TunnelError};
 use crate::TlsProvider;
 use std::{collections::VecDeque, sync::Arc};
 use tokio::{
-    io::AsyncRead,
+    io::AsyncWrite,
     sync::{Mutex, Notify},
 };
 
@@ -44,7 +44,7 @@ impl<R, W, T> MessageQueue<R, W, T> {
 
 impl<R, W, T> MessageQueue<R, W, T>
 where
-    R: Unpin + AsyncRead,
+    W: Unpin + AsyncWrite,
     T: TlsProvider,
 {
     /// Awaits and sends messages in importance order.
@@ -61,7 +61,7 @@ where
             }
 
             if let Some(message) = message {
-                self.tunnel.send(message).await?;
+                self.tunnel.send(&message).await?;
             } else {
                 self.notify.notified().await;
             }

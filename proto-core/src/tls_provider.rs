@@ -20,3 +20,19 @@ pub trait TlsProvider {
     /// Decrypts received encrypted data back to its original form.
     fn decrypt(&self, ciphertext: &[u8]) -> Result<Vec<u8>, Self::Error>;
 }
+
+#[cfg(test)]
+pub struct MockTls {}
+
+#[cfg(test)]
+impl TlsProvider for MockTls {
+    type Error = ();
+
+    fn encrypt(&self, data: &[u8]) -> Result<Vec<u8>, Self::Error> {
+        Ok(Vec::from(data))
+    }
+
+    fn decrypt(&self, ciphertext: &[u8]) -> Result<Vec<u8>, Self::Error> {
+        Ok(Vec::from(ciphertext))
+    }
+}

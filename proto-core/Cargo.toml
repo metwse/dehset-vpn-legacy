@@ -9,5 +9,9 @@ tokio = { workspace = true, features = ["io-util"] }
 bincode = { workspace = true }
 paste = { workspace = true }
 
+[dev-dependencies]
+rand = { workspace = true }
+testutil = { path = "../testutil/" }
+
 [lints]
 workspace = true
