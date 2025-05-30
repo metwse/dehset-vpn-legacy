@@ -1,6 +1,6 @@
 use std::u64;
 
-use proto_core::{Token, TokenScope, TokenTag};
+use proto_core::token::{Token, TokenScope, TokenTag};
 
 pub fn generate_token(id: u64, name: String, tags: Vec<String>) -> Token {
     Token {
@@ -25,7 +25,7 @@ pub type DynResult<T> = Result<T, Box<dyn std::error::Error>>;
 #[macro_export]
 macro_rules! send_handshake_payload {
     ($w: expr, $content_type:expr, $payload:expr) => {{
-        use proto_core::handshake::write_handshake_payload;
+        use proto_core::sub_protocol::handshake::write_handshake_payload;
 
         let payload =
             bincode::serde::encode_to_vec(&$payload, bincode::config::standard()).unwrap();

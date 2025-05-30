@@ -1,9 +1,9 @@
 use crate::Error;
 use proto_core::{
-    handshake::{
+    random_bytes,
+    sub_protocol::handshake::{
         self, HandshakeAlert, HandshakeContentType, read_handshake_payload, write_handshake_payload,
     },
-    random_bytes,
 };
 use tokio::io::{AsyncRead, AsyncWrite};
 use tracing::{info, instrument, trace};
@@ -19,8 +19,8 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
 ) -> Result<([u8; 32], [u8; 32]), Error> {
     let client_hello = handshake::ClientHello {
         version: 0,
-        encryption_algorithm: proto_core::EncryptionAlgorithm::Aes128CbcSha256,
-        signature_algorithm: proto_core::SignatureAlgorithm::HmacSha256,
+        encryption_algorithm: proto_core::algorithms::EncryptionAlgorithm::Aes128CbcSha256,
+        signature_algorithm: proto_core::algorithms::SignatureAlgorithm::HmacSha256,
     };
 
     let payload = bincode::serde::encode_to_vec(&client_hello, bincode::config::standard())?;
@@ -77,8 +77,8 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
 mod tests {
     use super::do_handshake;
     use proto_core::{
-        handshake::{self, HandshakeContentType, read_handshake_payload},
         random_bytes,
+        sub_protocol::handshake::{self, HandshakeContentType, read_handshake_payload},
     };
     use testutil::{DynResult, send_handshake_payload};
     use tokio::io::simplex;

@@ -6,7 +6,7 @@ use openssl::{
     pkey::{PKey, Private},
     sign::Signer,
 };
-use proto_core::SignatureAlgorithm;
+use proto_core::algorithms::SignatureAlgorithm;
 
 /// HMAC with SHA 256 symmetric keyed signature algorithm.
 #[derive(Debug)]

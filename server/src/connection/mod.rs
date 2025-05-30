@@ -3,7 +3,7 @@
 mod handshake;
 
 pub use handshake::do_handshake;
-use proto_core::TlsProvider;
+use proto_core::tls_provider::TlsProvider;
 
 use crate::server::SharedState;
 use std::sync::Arc;

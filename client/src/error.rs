@@ -1,6 +1,6 @@
 use bincode::error::{DecodeError, EncodeError};
 use crypto::CryptoError;
-use proto_core::handshake::HandshakeAlert as HandshakeError;
+use proto_core::sub_protocol::handshake::HandshakeAlert as HandshakeError;
 use std::io::Error as IoError;
 
 /// Client error types.

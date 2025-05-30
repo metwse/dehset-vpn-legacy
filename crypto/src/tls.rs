@@ -1,7 +1,7 @@
 //! Handshake TLS providers.
 
 use crate::{CryptoError, symm::Aes128CbcSha256};
-use proto_core::TlsProvider;
+use proto_core::tls_provider::TlsProvider;
 use std::sync::{Arc, Mutex};
 
 /// Encrption layer implementing symmetric encrption.
@@ -84,7 +84,7 @@ impl TlsProvider for SymmTls {
 mod tests {
     use super::SymmTls;
     use crate::{CryptoError, symm::Aes128CbcSha256};
-    use proto_core::{TlsProvider, random_bytes};
+    use proto_core::{random_bytes, tls_provider::TlsProvider};
     use std::sync::Arc;
     use testutil::DynResult;
 

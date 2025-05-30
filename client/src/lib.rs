@@ -9,7 +9,7 @@ mod error;
 pub use client::Client;
 pub use error::Error;
 
-use proto_core::SignedToken;
+use proto_core::token::SignedToken;
 use std::net::SocketAddr;
 
 pub use proto_core;

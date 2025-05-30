@@ -1,5 +1,5 @@
 use openssl::error::{Error as OpenSslError, ErrorStack as OpenSslStackError};
-use proto_core::TokenError;
+use proto_core::token::TokenError;
 
 /// Crypto error types.
 #[derive(Debug)]

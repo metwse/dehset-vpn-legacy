@@ -1,8 +1,8 @@
 use proto_core::{
-    handshake::{
+    random_bytes,
+    sub_protocol::handshake::{
         self, HandshakeAlert, HandshakeContentType, read_handshake_payload, write_handshake_payload,
     },
-    random_bytes,
 };
 use tokio::io::{AsyncRead, AsyncWrite};
 use tracing::{info, instrument, trace};
@@ -71,8 +71,10 @@ pub async fn do_handshake<R: Unpin + AsyncRead, W: Unpin + AsyncWrite>(
 mod tests {
     use super::do_handshake;
     use proto_core::{
-        handshake::{self, HandshakeAlert, HandshakeContentType, read_handshake_payload},
-        random_bytes,
+        algorithms, random_bytes,
+        sub_protocol::handshake::{
+            self, HandshakeAlert, HandshakeContentType, read_handshake_payload,
+        },
     };
     use testutil::{DynResult, send_handshake_payload};
     use tokio::io::simplex;
@@ -108,8 +110,8 @@ mod tests {
             HandshakeContentType::ClientHello,
             handshake::ClientHello {
                 version: 0,
-                encryption_algorithm: proto_core::EncryptionAlgorithm::Aes128CbcSha256,
-                signature_algorithm: proto_core::SignatureAlgorithm::HmacSha256,
+                encryption_algorithm: algorithms::EncryptionAlgorithm::Aes128CbcSha256,
+                signature_algorithm: algorithms::SignatureAlgorithm::HmacSha256,
             }
         );
 
@@ -132,8 +134,8 @@ mod tests {
             HandshakeContentType::ClientHello,
             handshake::ClientHello {
                 version: 0,
-                encryption_algorithm: proto_core::EncryptionAlgorithm::Aes128CbcSha256,
-                signature_algorithm: proto_core::SignatureAlgorithm::HmacSha256,
+                encryption_algorithm: algorithms::EncryptionAlgorithm::Aes128CbcSha256,
+                signature_algorithm: algorithms::SignatureAlgorithm::HmacSha256,
             }
         );
         send_handshake_payload!(

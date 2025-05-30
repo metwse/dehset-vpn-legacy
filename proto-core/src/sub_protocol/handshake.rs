@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 use std::ops::RangeInclusive;
 use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt};
 
-use crate::{EncryptionAlgorithm, SignatureAlgorithm};
+use crate::algorithms::{EncryptionAlgorithm, SignatureAlgorithm};
 
 /// Content type of the handshake payloads.
 ///

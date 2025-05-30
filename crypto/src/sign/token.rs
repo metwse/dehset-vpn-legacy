@@ -1,6 +1,6 @@
 use super::{SignatureAlgorithm, Signer};
 use crate::CryptoError;
-use proto_core::{SignedToken, Token};
+use proto_core::token::{SignedToken, Token};
 
 pub fn sign_token<S: Signer + SignatureAlgorithm>(
     token: Token,

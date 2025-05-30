@@ -13,7 +13,7 @@ pub use token::*;
 
 /// Signing algorithm of the struct.
 pub trait SignatureAlgorithm {
-    fn algorithm() -> proto_core::SignatureAlgorithm;
+    fn algorithm() -> proto_core::algorithms::SignatureAlgorithm;
 }
 
 /// Signer trait for signing tokens.

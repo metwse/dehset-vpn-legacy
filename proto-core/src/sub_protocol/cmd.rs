@@ -3,7 +3,7 @@
 //! Messages used for control-plane operations such as signing and revoking
 //! authentication tokens.
 
-use crate::SignedToken;
+use crate::token::SignedToken;
 use serde::{Deserialize, Serialize};
 
 /// Initial authentication payloads that should be sent by all connecting

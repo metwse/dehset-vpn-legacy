@@ -1,5 +1,4 @@
-use super::{Tunnel, TunnelError};
-use crate::TlsProvider;
+use super::{TlsProvider, Tunnel, TunnelError};
 use std::{collections::VecDeque, sync::Arc};
 use tokio::{
     io::AsyncWrite,

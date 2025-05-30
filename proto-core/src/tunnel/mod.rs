@@ -4,7 +4,7 @@ mod message_queue;
 pub use error::TunnelError;
 pub use message_queue::MessageQueue;
 
-use crate::TlsProvider;
+use crate::tls_provider::TlsProvider;
 use tokio::{
     io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt},
     sync::Mutex,
@@ -30,10 +30,7 @@ where
     T: TlsProvider,
 {
     pub async fn send(&self, payload: &[u8]) -> Result<(), TunnelError> {
-        let encrypted = self
-            .tls
-            .encrypt(payload)
-            .map_err(|_| TunnelError::Crypto)?;
+        let encrypted = self.tls.encrypt(payload).map_err(|_| TunnelError::Crypto)?;
 
         if encrypted.len() > MAX_PAYLOAD_SIZE {
             return Err(TunnelError::PayloadTooLarge);
@@ -71,9 +68,10 @@ where
 
 #[cfg(test)]
 mod tests {
-    use tokio::{io::simplex, sync::Mutex};
-    use crate::{random_bytes, MockTls, Tunnel, MAX_PAYLOAD_SIZE};
+    use super::{MAX_PAYLOAD_SIZE, Tunnel};
+    use crate::{random_bytes, tls_provider::MockTls};
     use testutil::DynResult;
+    use tokio::{io::simplex, sync::Mutex};
 
     #[tokio::test]
     pub async fn tunnel() -> DynResult<()> {
