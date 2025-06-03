@@ -1,4 +1,7 @@
-use super::{TlsProvider, Tunnel, TunnelError};
+use crate::{
+    tls_provider::TlsProvider,
+    tunnel::{Tunnel, TunnelError},
+};
 use std::{collections::VecDeque, sync::Arc};
 use tokio::{
     io::AsyncWrite,
@@ -47,7 +50,7 @@ where
     T: TlsProvider,
 {
     /// Awaits and sends messages in importance order.
-    pub async fn send_messages(&self) -> Result<(), TunnelError> {
+    pub async fn message_service(&self) -> Result<(), TunnelError> {
         loop {
             let mut message = None;
 
@@ -65,5 +68,41 @@ where
                 self.notify.notified().await;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use crate::{tls_provider::MockTls, tunnel::Tunnel};
+    use super::MessageQueue;
+    use std::sync::Arc;
+    use testutil::DynResult;
+    use tokio::{io::simplex, sync::Mutex};
+
+    #[tokio::test]
+    async fn message_queue() -> DynResult<()> {
+        let (r, w) = simplex(usize::MAX);
+
+        let tunnel = Arc::new(Tunnel {
+            r: Mutex::new(r),
+            w: Mutex::new(w),
+            tls: MockTls {},
+        });
+
+        let message_queue = MessageQueue::new(Arc::clone(&tunnel), 3);
+
+        message_queue.push_message(vec![1, 2, 3], 0).await;
+        message_queue.push_message(vec![3, 4, 5], 2).await;
+        message_queue.push_message(vec![2, 3, 4], 1).await;
+
+        tokio::spawn(async move {
+            message_queue.message_service().await.unwrap();
+        });
+
+        assert_eq!(tunnel.recv().await?, [1, 2, 3]);
+        assert_eq!(tunnel.recv().await?, [2, 3, 4]);
+        assert_eq!(tunnel.recv().await?, [3, 4, 5]);
+
+        Ok(())
     }
 }

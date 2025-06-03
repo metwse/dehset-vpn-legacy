@@ -5,6 +5,7 @@
 //!
 //! Modules:
 //! - [`token`]: Authentication token structures and scopes.
+//! - [`common`]: Basic connection utilities.
 //! - [`sub_protocol`]: Definitions for handshake, command, and data payloads.
 //! - [`algorithms`]: Supported encryption and signature algorithms.
 //! - [`tls_provider`]: Defines an encryption trait.
@@ -15,6 +16,7 @@
 mod macros;
 
 pub mod algorithms;
+pub mod common;
 pub mod sub_protocol;
 pub mod tls_provider;
 pub mod token;

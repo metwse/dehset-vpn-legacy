@@ -1,8 +1,6 @@
 mod error;
-mod message_queue;
 
 pub use error::TunnelError;
-pub use message_queue::MessageQueue;
 
 use crate::tls_provider::TlsProvider;
 use tokio::{
