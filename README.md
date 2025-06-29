@@ -1,3 +1,8 @@
+## Status
+Development of Dehset VPN in this repository has been discontinued.
+A complete protocol rewrite is underway in a new repository.
+
+
 # DEHSeT VPN - Dynamic Encrypted High-Security Tunnel
 Dehset VPN is a proprietary virtual network software designed for tunneling
 license server, SSH, and RDP ports. The source code policy is subject to change
